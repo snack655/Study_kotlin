@@ -1,2 +1,9 @@
 class type {
+
+
+}
+
+fun main() {
+
+
 }
