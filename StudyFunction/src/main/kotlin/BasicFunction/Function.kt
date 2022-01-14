@@ -1,6 +1,5 @@
 fun main() {
     lambda1()
-
 }
 
 fun lambda1() {
@@ -50,7 +49,6 @@ fun lambda1() {
     out() // 함수처럼 사용 가능
     val new = out // 람다식이 들어 있는 변수를 다른 변수에 할당
     new()
-
 
 }
 
