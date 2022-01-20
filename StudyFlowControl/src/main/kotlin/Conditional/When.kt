@@ -91,14 +91,14 @@ fun main() {
      제한하지 않고 다양한 조건을 구성할 수 있다.
      */
     print("Enter the score: ")
-    var score = readLine()!!.toDouble()
-    var grade: Char = 'F'
+    var score2 = readLine()!!.toDouble()
+    var grade2: Char = 'F'
 
     when {
-        score >= 90.0 -> grade = 'A'    // 인자 있는 when문과 다르게 조건식을 구성할 수 있음
-        score in 80.0..89.9 -> grade = 'B'
-        score in 70.0..79.9 -> grade = 'C'
-        score < 70.0 -> grade = 'F'
+        score2 >= 90.0 -> grade2 = 'A'    // 인자 있는 when문과 다르게 조건식을 구성할 수 있음
+        score2 in 80.0..89.9 -> grade2= 'B'
+        score2 in 70.0..79.9 -> grade2 = 'C'
+        score2 < 70.0 -> grade = 'F'
     }
     println("Score: $score, Grade: $grade")
 
@@ -108,7 +108,7 @@ fun main() {
     cases("Hello")  // 2. String형
     cases(1)    // Int형
     cases(System.currentTimeMillis())   // 현재 시간(밀리초 단위)을 Long형 값으로 반환
-    cases(MyClass())    // 객체
+    //cases(MyClass())    // 객체
 }
 
 fun parseInt(num: Int) = 2
