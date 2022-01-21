@@ -85,7 +85,7 @@ fun main() {
 
     // 잔고가 1,000 이하일 때 예외를 발생하는 예제
     var amount = 600
-    
+
     fun checkAmount(amount: Int) {
         if (amount < 1000)
             throw Exception("잔고가 $amount 으로 1000 이하입니다.")
