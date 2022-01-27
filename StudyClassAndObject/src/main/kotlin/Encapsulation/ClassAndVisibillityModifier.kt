@@ -32,4 +32,4 @@ class Other(base: Base) {
     // base.a, base.b는 접근 물가
     // base.c와 base.d는 접근 가능(같은 모듈 안에 있으므로)
     // Base.Nested는 접근 불가, Nested::e 역시 접근 불가
-} 
+}
