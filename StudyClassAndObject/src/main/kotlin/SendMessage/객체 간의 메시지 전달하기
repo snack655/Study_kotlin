@@ -1,0 +1,30 @@
+객체 간의 메시지 전달하기
+
+두 객체 간의 메시지 전달(Message Sending)은 프로그래밍에서 아주 흔하며
+시간의 흐름에 따라 일어나는 경우가 대부분이기 때문에 주로 UML 시퀀스 다이어그램(Sequence Diagram)으로 표현
+
+책 248쪽의 시퀀스 다이어그램은 클래스로부터 만들어진 3개의 객체로 볼 수 있다.
+touchScreen, bankController, account의 관게를 보여주며 세로 점선은 시간의 흐름을 나타낸다.
+각 화살표는 주고받을 메시지이며 반환되어 돌아올 때는 점선으로 표기한다.
+touchScreen은 사용자와 직접 상호작용이 일어나며 이를 통해 내부 개체에 메시지로 비밀번호를 전달해
+은행의 잔고 정보를 돌려주기까지의 과정과 입금하는 과정에서 새로운 데이터를 보내는 과정을 처리하고 있다.
+
+이것을 프로그램의 흐름으로 보면 다음과 같은 과정이 일어나는 것이다.
+...
+touchscreen.pin()
+
+class Touchscreen {
+    fun pin() {
+        ...
+        bankController.getBalance("123-456"))
+    }
+}
+
+class BackController {
+    fun getBalance(val account: String) {
+        ...
+        account.getBalance()
+    }
+}
+
+...
