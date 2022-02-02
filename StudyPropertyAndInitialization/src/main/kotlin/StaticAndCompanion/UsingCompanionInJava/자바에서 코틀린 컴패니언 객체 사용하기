@@ -1,0 +1,33 @@
+자바에서 코틀린 컴패니언 객체 사용하기
+
+자바에서는 코틀린의 컴패니언 객체에 접근하려면 @JvmStatic 애노테이션(Annotation)을 표기법을 사용해야 한다.
+
+KCustomer.kt와 KCustomerAccess.java를 보자.
+
+먼저 코틀린 코드에서 사용된 const는 컴파틸 시간의 상수이다.
+컴파일 시간의 상수란 val과 다르게 컴파일 시간에 이미 값이 할당되는 것으로
+자바에서 접근하기 위해서 필요하다.
+val은 실행 시간에 할당한다.
+const는 Int형, Double형과 같이 기본형으로 사용할 자료형과 String형에만 적용할 수 있다.
+
+@JvmStatic 애노테이션은 자바 소스에서 코드를 해석할 때 Companion을 생략할 수 있게 해준다.
+해당 코드는 다음과 같이 함수 이름 위에 작성해도 된다.
+@JvmStatic
+fun login() = println("Login...")
+애노테이션이 있는 login() 메서드는 자바에서 접근할 때 Companion을 생략해 다음과 같이 접근할 수 있게 된다.
+KCustomer.login();
+애노테이션을 사용하지 않을 경우 Companion을 포함해 다음과 같이 접근해야 한다.
+KCustomer.Companion.login();
+
+만일 프로퍼티를 자바에서 사용하고자 할 경우에는 @JvmField 애노테이션을 사용할 수 있다.
+다음과 같이 확장해보자.
+KCustomer.kt의 /** 확장 */ 와
+KCustomerAccess.java의 /** 확장 */을 보자.
+
+새롭게 정의된 KJob 클래스를 사용하는 JOB을 정의하다.
+이것은 @JvmField 애노테이션으로 정의되었기 때문에
+KCustomer.JOB.getTitle()과 같은 방법으로 접근하거나 Job에 대한 객체를 만들고 접근할 수 있다.
+
+컴패니언 객체는 외부 클래스에서 private 프로퍼티에도 접근할 수 있기 때문에 유틸리티 클래스 등을
+만드는 데 사용할 수 있다.
+

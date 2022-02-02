@@ -16,4 +16,13 @@ fun main() {
     // 여기서는 기존값이 새 값보다 크므로 false. 따라서 5를 재할당하지 않음
     max = 5
     println(max)    // 10
+
+    // 다른 예를 간단하게 보자면
+    // List 컬렉션의 data
+    var data: List<Any> by Delegates.vetoable(listOf()) { p, old, new ->
+        old != new
+    }
+    // ...
+    // 코드 어딘가에서 data 프로퍼티를 설정함
+    // adapter.data = ...
 }
