@@ -1,5 +1,7 @@
 package LazyInitialization.by
 
+import kotlin.properties.Delegates
+
 /**
  * 클래스의 위임
  *

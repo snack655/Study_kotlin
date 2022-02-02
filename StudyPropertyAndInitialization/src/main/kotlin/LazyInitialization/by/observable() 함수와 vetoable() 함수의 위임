@@ -1,0 +1,43 @@
+observable() 함수와 vetoable() 함수의 위임
+
+observable() 함수와 vetoable() 함수를 사용하려면 다음 코틀린 패키지의 Delegates를 임포트해야 한다.
+import kotlin.properties.Delegates
+
+프로퍼티를 위임하는 object인 Delegates로부터 사용할 수 있는 위임자인 observable() 함수는
+프로퍼티를 감시하고 있다가 특정 코드의 로직에서 변경이 일어날 때 호출되어 처리된다.
+특정 변경 이벤트에 따라 호출되므로 콜백이라고도 부른다.
+
+vetoable() 함수는 observable() 함수와 비슷하지만 반환값에 따라 프로퍼티 변경을 허용하거나 취소할 수 있다는 점이 다르다.
+
+일단 두 함수의 선언부를 보자.
+
+// 코틀린 표준 라이브러리 Delegates.kt의 선언부
+public object Delegates {
+    ...
+    // initialValue: 프로퍼티의 초깃값
+    // onChange: 프로퍼티 변경된 후 호출되는 콜백
+    public inline fun <T> observable(initialValue: T, crossinline onChange: (property: KProperty<*>, oldValue: T, newValue: T) -> Unit):
+            ReadWriteProperty<Any?, T> =
+        object : ObservableProperty<T>(initialValue) {
+            override fun afterChange(property: KProperty<*>, oldValue: T, newValue: T) = onChange(property, oldValue, newValue)
+        }
+
+    // initialValue: 프로퍼티의 초깃값
+    // onChange: 프로퍼티 값의 변경이 시도되기 전 호출
+    // 따라서 이 콜백이 호출되었을 때는 프로퍼티는 아직 변경되지 않음
+    // 콜백이 true를 반환하면 프로퍼티는 아직 변경되지 않음
+    // false를 반환하면 프로퍼티의 새 값은 취소되고 기존 old 값을 유지함
+    public inline fun <T> vetoable(initialValue: T, crossinline onChange: (property: KProperty<*>, oldValue: T, newValue: T) -> Boolean):
+            ReadWriteProperty<Any?, T> =
+        object : ObservableProperty<T>(initialValue) {
+            override fun beforeChange(property: KProperty<*>, oldValue: T, newValue: T): Boolean = onChange(property, oldValue, newValue)
+        }
+}
+...
+
+매개변수를 잘 묶어서 보자.
+observable() 함수와 vetoable() 함수 모두 초깃값을 위한 initialValue가 있으며
+프로퍼티 값이 변경될 때 호출하는 콜백인 onChange()가 있다.
+
+vetoable() 함수는 onChange()의 람다식에 Boolean을 사용하고 있어서 true일 떄 새로운 값이 지정되고
+false이면 기존 oldValue를 유지한다.
