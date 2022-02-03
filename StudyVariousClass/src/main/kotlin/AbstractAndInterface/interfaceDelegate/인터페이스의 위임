@@ -1,0 +1,32 @@
+인터페이스의 위임
+
+인터페이스에서도 by 위임자를 사용할 수 있다.
+다음 소스 코드에서 클래스 C를 설계하기 위해 인터페이스 A와 B를 매개변수로 사용한다고 가정하자.
+
+interface A {
+    fun functionA(){}
+}
+
+interface B {
+    fun functionB(){}
+}
+
+class C(val a: A, val b: B) {
+    fun functionC() {
+        a.functionA()
+        b.functionB()
+    }
+}
+
+functionA()와 functionB() 메서드에 직접 접근하기 위해 a와 b 변수를 사용했다.
+이때 by 위임자를 사용하면 다음과 같이 소소 코드를 더 간략화할 수 있다.
+
+class DelegatedC(a: A, b: B): A by a, B by b {
+    fun functionC() {
+        functionA()
+        functionB()
+    }
+}
+
+각각 a와 b를 인터페이스 A와 B에 위임함으로서 해당 메서드를 사용할 때 점(.) 표기법 접근 없이
+사용할 수 있게 되었다.
