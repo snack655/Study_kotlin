@@ -1,0 +1,129 @@
+연산자의 종류
+
+주요 연산자의 종류와 사용법, 호출 메서드에 대해서 한번 정리해 보자.
+
+산술 연산자
+산술 연산자의 의미
+표현식         의미
+a + b        a.plus(b)
+a - b        a.minus(b)
+a * b        a.times(b)
+a / b        a.div(b)
+a % b        a.rem(b) (Kotlin 1.1부터), a.mod(b) (지원 중단)
+a..b         a.rangeTo(b)
+
+호출 연산자(Invoke Operator)
+함수 호출을 돕는데 사용된다.
+특정 객체에 인수를 넣어 처리하기 위해 다음과 같은 표현이 가능.
+
+class Manager {
+    operator fun invoke(value: String) {
+        println(value)
+    }
+}
+
+fun main() {
+    val manager = Manager()
+    manager("Do something for me!")     // manager.invoke("...") 형태로 호출되며 invoke가 생략됨
+}
+
+이 소스 코드를 보면 Manager 클래스에는 invoke가 선언되어 Manager 클래스를 통해 생성한 객체
+manager라는 이름만으로 점근해 사용할 수 있다.
+invoke를 생략하고 객체 이름만 작성해서 코드를 읽기가 수월해졌다.
+
+또 다른 예로 2개의 인자를 받는 객체 a.invoke(i, j)는 a(i, j) 형태로 사용할 수 있다.
+val sum = { x: int, y: Int -> x + y }
+sum.invoke(3, 10)
+sum(3, 10)
+
+그리고 이 코드와 같이 람다식에는 기본적으로 invoke가 정의된다.
+따라서 sum.invoke() 대신에 sum() 처럼 사용이 가능하다.
+
+인덱스 접근 연산자(Indexed Access Operator)
+게터/세터를 다루기 위한 대괄호([]) 연산자를 제공한다.
+표에서 보는 것처럼 인덱스 표기법을 통해 값을 읽어 오거나 쓰기가 가능하다.
+
+인덱스 접근 연산자의 의미
+표현식                     의미
+a[i]                    a.get(i)
+a[i, j]                 a.get(i, j)
+a[i_1, ..., i_n]        a.get(i_1, ..., i_n)
+a[i] = b                a.set(i, b)
+a[i, j] = b             a.set(i, j, b)
+a[i_1, ..., i_n] = b    a.set(i_1, ..., i_n, b)
+
+단일 연산자
+표에서 보는 것처럼 먼저 a의 자료형을 결정하고 매개변수 없이 각 연산자에 대한
+함수를 호출한 다음 연산된 결과를 반환한다.
+
+표현식             의미
++a              a.unaryPlus()
+-a              a.unaryMinus()
+!a              a.not()
+
+data class Point(val x: Int, val y: Int)
+
+operator fun Point.unaryMinus() = Point(-x, -y)
+
+val point = Point(10, 20)
+println(-point) // 단일 연산자에 의해 (-10, -20) 값을 바꿈
+
+확장 함수과 같은 기법으로 Point 클래스에 연산자 메서드를 정의했다.
+point를 사용할 때 값의 부호가 바뀐다.
+
+범위 연산자
+in 연산자는 특정 객체를 반복하기 위해 반복문에 사용하거나 범위 연산자와 함께 포함 여부를 판단할 수도 있다.
+if (i in 1..10) {   // 1 <= i && i <= 10 와 동일
+    println(i)
+}
+for (i in 1..4) print(i)    // "1234" 출력
+
+따라서 이 연산자를 오버로딩하려면 contains() 메서드를 이용할 수 있다.
+!in 형식은 반대의 경우로 범위에 없는 경우를 가리킨다.
+
+범위 연산자의 의미
+표현식             의미
+a in b          b.contains(a)
+a !in b         !b.contains(a)
+
+
+대입 연산자(Augmented Assignment)
+연산의 결과를 할당한다.
+예를 들어 a += b는 a + b의 연산 결과를 다시 a에 할당한다.
+주의해야 할 것은 +에 대응하는 plus()를 오버로딩하면 += 는 자동으로 구현된다.
+따라서 plusAssign()을 따로 오버로딩할 필요가 없다.
+만일 2개를 동시에 오버로딩하면 +의 동작을 무엇으로 할지 모호해지기 때문에 오류가 발생한다.
+
+대입 연산자의 의미
+표현식             의미
+a += b          a.plusAssign(b)
+a -= b          a.minusAssign(b)
+a *= b          a.timesAssign(b)
+a /= b          a.divAssign(b)
+a %= b          a.remAssign(b)
+
+동등성 연산자
+일치와 불일치(Equality and Inequality)에 대한 연산자는 두 객체의 값의 동등성을 판별한다.
+==나 !=는 둘다 equals()로 변경되어 동작하는데 위와 같은 판단문이 사용되면 인자가 null이어도
+동작하도록 되어 있다.
+따라서 a와 b가 둘 다 null이면 true를 반환한다는 점에 주의해야 한다.
+equals는 Any 안에 operator 키워드가 붙어서 구현되어 있기 때문에 하위 클래스에서는
+override 키워드를 사용해서 ==와 치환할 수 있다.
+또한 이런 특이점이 있기 때문에 equals는 확장 함수로 구현할 수 없다.
+
+동등성 연산자의 의미
+표현식             의미
+a == b          a?.equals(b) ?: (b === null)
+a != b          !(a?.equals(b) ?: (b === null)
+
+
+비교 연산자
+모든 비교 연산자(Comparision)는 compareTo()를 호출해 반환되는 정수를 보고 비교한다.
+
+비교 연산자의 의미
+표현식             의미
+a > b           a.compareTo(b) > 0
+a < b           a.compareTo(b) < 0
+a >= b          a.compareTo(b) >= 0
+a <= b          a.compareTo(b) <= 0
+
