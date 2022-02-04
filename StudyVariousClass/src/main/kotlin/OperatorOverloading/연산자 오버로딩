@@ -1,0 +1,31 @@
+연산자 오버로딩(Operator Overloading)
+
+연산자 오버로딩도 클래스의 다형성의 한 경우로 플러스(+)와 같은 연산자에 여러 가지 다른 의미의 작동을 부여할 수 있다.
+코틀린에서는 특정 연산자의 역할을 함수로 정의하고 있다.
+이를 일종의 협약(Convention)이라고 한다.
+
+수학에서 계산할 때 곱하기가 더하기보다 우선하는 것처럼 연산자 역시 일종의 우선순위(Precedence)를 가지고 있다.
+다음의 표를 보자.
+
+연산자의 우선순위
+
+우선순위
+높음 분류                       심볼
+    접미사(Postfix)            ++,--,.,?.,?
+    접두사(Prefix)             -, +, ++, --, !, 라벨 선언(이름@)
+    오른쪽 형식(Type RHS)       :, as, as?
+    배수(Multiplicative)       *, /, %
+    첨가(Additive)             +, -
+    범위(Range)                ..
+    중위 함수(Infix Function)   SimpleName
+    엘비스(Elvis)              ?:
+    이름 검사(Name Checks)      in, !in, is, !is
+    비교(Comparison)           <,>, <=, >=
+    동등성(Equality)            ==, !=
+    결합(Conjunction)          &&
+    분리(Disjunction)          ||
+낮음 할당(Assignment)           =, +=, -=, *=, /=, %=
+
+연산자는 양쪽에 배치하거나 왼쪽, 오른쪽과 같은 위치나 역할에 따라 분류할 수 있다.
+이것을 이향, 단항 연산자라고도 부른다.
+
