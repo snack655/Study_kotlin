@@ -39,5 +39,5 @@ package generic.usingGeneric
  * 객체 a가 생성되면서 자료형이 Int형으로 결정되며 생성자에 의해 12가 myProp에 초기화된다.
  * 이제 MyClass는 Int형 이외에도 다른 자료형을 받아 myProp의 자료형을 결정할 수 있게 되었다!
  *
- * 
+ *
  */
