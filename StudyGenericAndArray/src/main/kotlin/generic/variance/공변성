@@ -1,0 +1,17 @@
+공변성
+
+형식 매개변수의 상하 자료형 관계가 성립하고,
+그 관계가 그대로 인스턴스 자료형 관계로 이어지는 경우를 공변성(Covariance)이라고 합니다.
+예를 들어 Int가 Any의 하위 자료형일 때 형식 매개변수 T에 대해 공변적이라고 한다.
+
+// 공변성(Covariance) 선언
+class Box<out T>(val size: Int)
+
+fun main() {
+    val anys: Box<Any> = Box<Int>(10)   // 관계 성립으로 객체 생성 가능
+    val nothing: Box<Nothing> = Box<Int>(20)    // 오류! 자료형 불일치
+}
+
+out이라는 키워드에 의해 형식 매개변수가 공변적으로 선언되어 상하 자료형 관계가 성립되었다.
+즉, Any의 하위 클래스인 Int는 공변성을 가지므로 Box<Any>에 Box<Int> 자료형을 할당할 수 있게 되었다.
+하지만 <Nothing>은 <Int>의 하위 자료형이 아니므로 오류가 난다.

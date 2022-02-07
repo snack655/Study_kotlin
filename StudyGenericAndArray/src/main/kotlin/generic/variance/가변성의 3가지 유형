@@ -1,0 +1,28 @@
+가변성의 3가지 유형
+
+제네릭에서 상,하위와 같은 관계를 주는 형태로 사용할 수 있을까?
+기본적으로 제네릭에서는 클래스 간에 상위와 하위의 개념이 없어 서로 무관하다.
+따라서 상위와 하위에 따른 형식을 주려면 가변성의 3가지 특징을 이해하고 있어야 한다.
+가변성은 형식 매개 변수가 클래스 계층에 어떤 영향을 미치는지에 따라서 다음과 같이 표로 나타날 수 있다.
+
+      용어                      의미
+공변성(Covariance)        T'가 T의 하위 자료형이면, C<T'>는 C<T>의 하위 자료형이다. (생산자 입장의 out 성질)
+반공변성(Contravariance)   T'가 T의 하위 자료형이면, C<T>는 C<T'>의 하위 자료형이다. (소비자 입장의 in 성질)
+무변성(Invariance)        C<T>와 C<T'>는 아무 관계가 없다. (생산자 + 소비자)
+
+생산자 입장의 out 성질과 소비자 입장의 in 성질을 눈여겨보자.
+이것을 다이어그램을 나타내면 다음과 같다.
+
+                  공변성                    반공변성               무변성
+            class Box<out T>          class Box<in T>       class Box<T>
+Number         Box<Number>              Box<Number>          Box<Number>
+  ^                 ^                        ^(뒤집어서)            X
+ Int             Box<Int>                  Box<Int>           Box<Int>
+
+다이어그램을 왼쪽부터 하나씩 보자면
+Int 클래스는 Number 클래스의 하위 클래스이고
+제네릭에서는 class Box<T>와 같은 경우에 Box<Number>와 Box<Int>는 아무 관련이 없는 무변성이다.
+이제 생산자 입장의 out을 사용해 class Box<out T>로 정의하면 Box<Int>는 Box<Number>의 하위 자료형이 된다.
+이것이 공변성이다.
+반대로 소비자 입장의 in을 사용해 class Box<in T>로 정의하면 Box<Number>가 Box<Int>의 하위 자료형이 되고
+이것을 반공변성이라고 부른다.

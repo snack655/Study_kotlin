@@ -1,0 +1,15 @@
+반공변성
+
+공변성의 예제의 out을 in으로 바꿔 보자.
+이때는 자료형의 상하 관계가 반대가 되어 인스턴스의 자료형이 상위 자료형이 된다.
+이것을 반공변성(Contravariance)이라고 한다.
+
+// 반공변성(Contravariance) 선언
+class Box<in T>(val size: Int)
+
+fun main() {
+    val anys: Box<Any> = Box<Int>(10)   // 오류! 자료형 불일치
+    val nothings: Box<Nothing> = Box<Int>(20)   // 관계 성립으로 객체 생성 가능
+}
+
+Box<Nothing> 자료형의 상위 자료형이 Box<Int>이므로 객체를 생성할 수 있게 된다.

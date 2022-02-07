@@ -1,0 +1,32 @@
+클래스와 자료형
+
+우리가 사용하는 모든 클래스는 자료형으로 취급할 수 있다.
+예를 들어 Int는 클래스이기도 하고 동시에 자료형이다.
+하지만 null을 가지는 자료형인 String?은 클래스라고 하지 않는다.
+또 List로 예를 들면 List 자체는 클래스이지만 List<String>은 클래스가 아니라 자료형일 뿐이다.
+이것을 다시 표로 정리하면 다음과 같다.
+
+형태                  클래스인가?                  자료형인가?
+String                  네                        네
+String?                아니오                      네
+List                    네                        네
+List<String>           아니오                      네
+
+왜 이런 식으로 클래스와 자료형을 구분할까?
+보통 클래스는 파생된 하위 클래스와 상위 클래스가 있다.
+예를 들면 Int는 Number의 하위 클래스이다.
+
+하위 클래스는 상위 클래스가 수용할 수 있다.
+다음과 같이 Int형 변수는 자연스럽게 Number형의 변수로 할당되어 형 변환이 이루어 진다.
+
+Number
+  ^
+  |
+ Int
+
+val integer: Int = 1
+val number: Number = integer    // 하위 자료형 Int를 Number가 수용
+
+또한 Int는 null이 가능한 Int형의 하위 자료형이기도 하기 때문에 Int를 Int?에 할당하는 것도 가능하다.
+val integer: Int = 1
+val nullableInteger: Int? = integer
