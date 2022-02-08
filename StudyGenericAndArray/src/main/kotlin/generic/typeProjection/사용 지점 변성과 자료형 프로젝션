@@ -1,0 +1,36 @@
+사용 지점 변성과 자료형 프로젝션
+
+사용 지정 변성의 예를 간단하게 보자.
+class Box<T>(val item: T)
+
+Box 클래스는 in 혹은 out을 지정하지 않아 무변성이다.
+item을 얻기(get) 위해서 Box에는 out이 지정되어야 하며 item을 설정(set)하기 위해서는 in으로
+지정되어야 한다. Box<>를 사용하는 지점에서 이것을 나타낼 수 있다.
+다음과 같은 함수에서 사용한다고 가정해보자.
+
+fun <T> printObj(box: Box<out Animal>) {
+    val obj: Animal = box.item  // item의 값을 얻음(get)
+    println(obj)
+}
+
+코드에서 box의 자료형이 Box<Animal>이 아닌 out의 제약을 둔 형태로 사용하고 있다.
+이렇게 사용하고자 하는 요소의 특정 자료형에 in 혹은 out을 지정해 제한하는 것을 자료형 프로젝션(Type Projection)이라고 한다.
+따라서 이 경우 box는 형식 매개변수 T를 in 위치에 사용하는 경우를 제한한다.
+
+fun <T> printObj(box: Box<out Animal>) {
+    box.item = Animal() // 오류! 설정(set)하려고 할때는 in이 지정되어야 함
+    println(obj)
+}
+
+이렇게 사용할 수 있는 위치를 제한하는 이유는 자료형 안정성을 보장하기 위해서이다.
+이 함수에서는 out에 의한 게터만 허용하고 in에 의한 세터는 금지하겠다는 것이다.
+이제 이 함수를 사용하기 위해 다음과 같이 지정할 것이다.
+
+val animal: Box<Animal> = Box(Animal())
+val cat: Box<Cat> = Box(Cat())
+
+printObj(animal)    // 가능!
+printObj(cat)       // 오류! Box<>는 무변성으로 지정되었기 때문에
+
+하지만 하위 자료형으로 만들어진 cat의 경우에는 Box<>가 무변성으로
+지정된 클래스이기 때문에 마지막 문장처럼 cat을 지정할 수 없게 된다.
