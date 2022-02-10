@@ -1,0 +1,41 @@
+reified의 사용 사례
+
+reified를 이해하기 위해 String의 문자열을 코틀린의
+객체 T로 변환하는 Jackson 라이브러리의 JSON 확장 함수의 사례를 살펴보자.
+
+fun <T> String.toKotlinObject(): T {
+    val mapper = jacksonObjectMapper()
+    return mapper.readValue(this, T::class.java)    // 오류!
+}
+
+readValue() 메서드는 JsonObject로 변환해 읽을 수 있게 하는 함수이다.
+하지만 T::class.java를 직접 사용하려고 하면 다음과 같은 오류가 발생한다.
+
+Cannot use 'T' as reified type parameter. Use a class instead.
+
+따라서 명시적으로 클래스 매개변수를 이용해 다음과 같이 해결할 수 있다.
+
+fun <T: Any> String.toKotlinObject(c: KClass<T>): T {
+    val mapper = jacksonObjectMapper()
+    return mapper.readValue(this, c.java)
+}
+
+이제 Class의 T를 명시적으로 전달할 수 있기 때문에 readValue() 수행에는 문제가 없으므로
+다음과 같이 사용할 수 있다.
+
+data class MyJsonType(val name: String)
+
+val json = """{"name":"example"}"""
+json.toKotlinObject(MyJsonType::class)
+
+하지만 이것을 다시 코틀린의 reified 방식으로 변경해보자.
+reified를 사용하려면 먼저 inline 키워드로 함수가 선언되어야 한다.
+
+inline fun <reified T: Any> String.toKotlinObject(): T {
+    val mapper = jacksonObjectMapper()
+    return mapper.readValue(this, T::class.java)
+}
+
+이제 인자를 생략하고 다음과 같이 사용할 수 있게 되었다.
+
+json.toKotlinObject<MyJsonType>()
