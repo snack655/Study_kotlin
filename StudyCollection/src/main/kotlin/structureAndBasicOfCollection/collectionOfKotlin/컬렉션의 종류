@@ -1,0 +1,18 @@
+컬렉션의 종류
+
+코틀린의 컬렉션은 자바 컬렉션의 구조를 확장 구현한 것이다.
+컬렉션의 종류로는 List, Set, Map 등이 있으며 자바와는 다르게
+불변형(immutable)과 가변형(mutable)로 나뉜다.
+
+가변형 컬렉션은 객체에 데이터를 추가하거나 변경할 수 있고
+불변형 컬렉션은 데이터를 한번 할당하면 읽기 전용이 된다.
+자바에서는 오로지 가변형 컬렉션만 취급되므로 자바와 상호작용하는 코드에서는 주의!
+
+컬렉션의 불변형 자료형 및 가변형 자료형 분류와 그에 따른 생성 헬퍼 함수
+|     컬렉션     |       불변형(읽기 전용)      |                   가변형
+    List            listOf                      mutableListOf, arrayListOf
+    Set             setOf                       mutableSetOf, hashSetOf, linkedSetOf,sortedSetOf
+    Map             mapOf                       mutableMapOf, hashMapOf, linkedMapOf, sortedMapOf
+
+변수를 선언할 때 불변형 val의 사용을 권장하듯이,
+컬렉션도 되도록이면 읽기 전용인 불변형으로 선언할 것을 권장한다.
