@@ -1,0 +1,20 @@
+List와 배열의 차이
+
+List는 배열을 위해 사용하는 Array<T>와 사용 방법이 비슷하다.
+하지만 Array 클래스에 의해 성성되는 배열 객체는 내부 구조상 고정된 크기의 메모리를 가지고 있다.
+코틀린의 List<T>와 MutableList<T>는 인터페이스로 설계되어 있고 이것을 하위에서 특정한 자료구조로 구현한다.
+따라서 해당 자료구조에 따라 성능이 달라진다.
+예를 들면 List<T> 인터페이스로부터 구현한 LinkedList<T>와 ArrayList<T>는
+특정 자료구조를 가지는 클래스이며 성능도 다르다.
+따라서 다음과 같이 객체를 만들 수 있다.
+
+val list1: List<Int> = LinkedList<Int>()
+val list2: List<Int> = ArrayList<Int>()
+
+List<T>는 Array<T>처럼 메모리 크기가 고정된 것이 아니기 때문에
+자료구조에 따라 늘리거나 줄이는 것이 가능하다.
+
+또 다른 차이점으로 Array<T>는 제네릭 관점에서 상-하위 자료형 관계가 성립하지 않는 무변성이기 때문에
+Array<Int>는 Array<Number>와 무관하다.
+코틀린의 MutableList<T>도 이와 동일하다.
+하지만 List<T>는 공변셩이기 때문에 하위인 List<Int>가 List<Number>에 지정될 수 있다.

@@ -14,7 +14,7 @@ package list.createImmutableList
  */
 
 fun main() {
-    var names: List<String> = listOf("one", "two", "three")
+    val names: List<String> = listOf("one", "two", "three")
 
     println(names.size) // List 크기
     println(names.get(0))   // 해당 인덱스의 요소 가져오기
