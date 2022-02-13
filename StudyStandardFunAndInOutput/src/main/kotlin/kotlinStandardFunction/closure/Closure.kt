@@ -1,4 +1,4 @@
-package closure
+package kotlinStandardFunction.closure
 
 fun main() {
     val calc = Calc()
