@@ -1,0 +1,19 @@
+Koltin의 입출력 API
+
+표준 라이브러리에서 제공하는 패키지를 정리해 보자.
+먼저 kotlin.io 패키지는 다음과 같은 자바 라이브러리를 확장한 것이다.
+
+        처리 목적         |         관련 자바 라이브러리
+ 파일 처리                  java.io.File
+ 바이트 단위의 입력 처리       java.io.InputStream
+ 바이트 단위의 출력 처리       java.io.OutputStream
+ 문자 기반 읽기 처리          java.io.Reader
+ 문자 기반 쓰기 처리          java.io.Writer
+ 버퍼를 가진 읽기 처리         java.io.BufferedReader
+
+이러한 라이브러리는 파일이나 콘솔과 같은 스트림(Stream)에서 일거나 쓸 수 있는
+API를 제공한다. 스트림은 데이터가 강물에 띄운 것처럼 흘러간다는 의미로 데이터가 머물러 있지
+않고 전달되는 개념을 말한다. 처리할 데이터의 양에 따라 간단한 데이터에는
+readBytes, readLines, readText 계열의 함수를 사용할 수 있다.
+대량의 데이터에는 copyTo, forEachBlock, forEachLine과 같은 API를 써야 한다.
+InputStream, Reader, Writer를 쓸 때는 호출 후 사용이 완료되면 반드시 닫아야 한다.

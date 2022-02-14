@@ -1,0 +1,18 @@
+표준 입출력의 기본 개념
+
+입력과 출력은 프로그래밍의 세계에서 빈번하게 일어나는 활동이다.
+우리가 많이 사용했던 print()와 println()은 내부적으로는 표준 출력 라이브러리인
+자바의 System.out.println()을 호출한다.
+System.out은 표준 출력을 위한 라이브러리를 가리킨다.
+
+그렇다면 표준 입력은 어떻게 다룰까?
+표준 입력의 가장 기본적인 API로 readLine() 함수가 있다.
+함수의 선언부를 보면 다음과 같다.
+
+fun readLine(): String? = readLine(System.`in`, decoder)
+internal fun readLine(inputStream: InputStream, decoder: CharsetDecoder): String? {
+...
+
+기본적으로 표준 입력인 System.in을 사용하고 in은 코틀린의 범위 연산자이기 때문에 백틱(`)으로
+감싸 지정했다. 그런 다음 오버로딩된 가시성 지시자 internal로 지정된 내부 함수 readLine()을 호출하고,
+이것을 매개변수에 inputStream과 CharsetDecoder를 사용해 입력 처리를 구현하고 있다.
