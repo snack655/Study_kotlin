@@ -1,0 +1,103 @@
+코틀린에서 DSL 사용하기
+
+코틀린은 범용 언어의 목적을 가지고 있지만 앞의 람다식과 확장 함수 등의 개념을
+적절히 활용하면 코틀린 안에서 충분히 DSL 형태의 언어를 만들어 낼 수 있게 된다.
+물론 잘 만들어진 서드파티의 프레임워크 라이브러리를 이용할 수도 있다.
+예를 들어 Anko의 레이아웃을 표현하기 위한 언어가 대표적이다.
+우리는 여기서 파서를 가진 독립적인 DSL 언어가 아닌 코틀린 코드 안에서 DSL을 활용해 만드는 방법을 살펴보자.
+
+
+DLS 경험해 보기
+고객의 정볼르 구체화하는 DSL을 직접 만들어 보자.
+우리가 목표로 할 DSL 코드는 다음과 같다.
+
+val person = person {
+    name = "Kildong"
+    age = 40
+    job {
+        category = "IT"
+        position = "Android Developer"
+        extension = 1234
+    }
+}
+
+클래스의 객체 선언처럼 보이지만 범용적인 문법과는 다르다!
+선언부의 키워드가 보이지 않고
+변수와 값 형태만 남아 있어 일기 쉽게 구성된 모습이 보인다.
+이것이 DSL의 형태이다.
+이것을 구성하기 위해서는 먼저 데이터 모델을 만들어야 한다.
+데이터 클래스를 이용해 다음과 같은 Person과 Job 클래스를 만들자!
+
+data class Person(
+    var name: String? = null,
+    var age: Int? = null,
+    var job: Job? = null)
+
+data class Job(
+    var category: String? = null,
+    var position: String? = null,
+    var extension: Int? = null)
+
+data class 키워드로 Person과 Job의 프로퍼티가 정의되었다.
+이 모델을 사용해 다음과 같은 person() 함수를 만들자.
+person() 함수는 람다식을 매개변수로 가지고 Person 객체를 받는다.
+
+fun person(block: (Person) -> Unit): Person {
+    val p = Person()
+    block(p)
+    return p
+}
+
+함수의 마지막 매개변수가 람다식이면 소괄호 바깥으로 빼낼 수 있었다.
+여기에는 매개변수가 람다식만 있으므로 person { ... }과 같이 소괄호를 생략!
+이 함수는 Person 객체를 생성하고 람다식 블록 p에 넘겨진다.
+그리고 이 p를 반환한다.
+
+물론 반환 전에 초기화되어야 하므로 이 함수는 다음과 같이 사용할 수 있다.
+val person = person {
+    it.name = "Kildong"
+    it.age = 40
+}
+
+람다식 함수의 매개변수는 1개이므로 it을 사용할 수 있고
+이것은 Person의 객체를 가리킨다.
+여기서 it을 제거한 표현식을 사용하려면 람다식을 Person에서 받도록 확장 함수 형태로 변경한다.
+
+fun person(block: Person.() -> Unit): Person {
+    val p = Person()
+    p.block()
+    return p
+}
+...
+fun main() {
+    val person = person {
+        name = "Kildong"    // this.name으로 접근하며 this는 생략 가능
+        age = 40    // this.age
+    }
+}
+
+이렇게 되면 it 대신에 this를 사용해 접근할 수 있으며 this는 생략 가능하다.
+훨씬 읽기 좋은 형태가 되었다.
+apply()를 적용하면 객체를 블록에 전달하고 객체 자체인 this를 반환하게 되므로
+다음과 같이 코드를 축약할 수 있다.
+
+fun person(block: Person.() -> Unit): Person = Person().apply(block)
+
+이제 job에 대한 항목을 작성하기 위해 확장 함수 방법을 사용해 보자.
+fun Person.job(block: Job.() -> Unit) {
+    job = Job().apply(block)
+}
+
+이제 이것을 우리가 목표로 한 DSL의 형태의 Person을 구성할 수 있게 되었다.
+val person = person {
+    name = "Kildong"
+    age = 40
+    job {
+        category = "IT"
+        position = "Android Developer"
+        extension = 1234
+    }
+}
+
+
+

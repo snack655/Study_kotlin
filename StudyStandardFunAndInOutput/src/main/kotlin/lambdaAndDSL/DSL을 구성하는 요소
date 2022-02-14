@@ -1,0 +1,30 @@
+DSL을 구성하는 요소
+
+다음과 같은 기법을 활용하면 더 복잡한 DSL을 구현하는 것도 가능하다.
+
+DSL을 만들기 위한 요소
+        기법         |            DSL 문법              |               일반 문법
+ 연산자 오버로딩           collection += element            collection.add(element)
+
+ 자료형 별칭              typealias Point = Pair           더 짧은 형식으로 대체 가능
+
+ 게터/세터               map["key"] = "value"              map.put("key", "value")
+
+                                                        val p = Point(0, 0)
+ 분해(디스트럭처링)         val (x, y) = Point(0, 0)        val x = p.first
+                                                        val y = p.second
+
+ 괄호 바깥의 람다식         list.forEach { ... }            list.forEach({ ... })
+
+ 확장 함수                mylist.first()                  독립된 함수
+
+ 중위(infix) 함수         1 to "one"                      1.to("one")
+
+ 수신자와 람다식            ClassName().apply { ... }       없음
+
+ 문맥 제어               @DslMarker                       없음
+
+여기서 새롭게 보이는 @DslMarker 애노테이션은 코틀린 1.1부터 제공되며
+사용자 애노테이션 클래스에 적용해 DSL로 사용하기 위한 정의이다.
+직접 DSL을 구성하는 경우가 많지는 않겠지만 자주 사용되는 특정 데이터 패턴을 DSL로 만들어 두면 아주 유용하다.
+
