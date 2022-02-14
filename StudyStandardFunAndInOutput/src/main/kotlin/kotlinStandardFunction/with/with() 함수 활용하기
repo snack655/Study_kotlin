@@ -1,0 +1,30 @@
+with() 함수 활용하기
+
+with() 함수는 인자로 받는 객체를 이어지는 block의 receiver로 전달하며 결괏값을 반환한다.
+with() 함수는 run() 함수와 기능이 거의 동일한데,
+run() 함수의 경우 receiver가 없지만
+with() 함수에서는 receiver로 전달할 객체를 처리하므로 객체의 위치가 달라진다.
+
+public inline fun <T, R> with(receiver: T, block: T.() -> R): R = receiver.block(0
+
+with() 함수는 매개변수가 2개이므로 with() { ... }와 같은 형태로 넣어 준다.
+함수 선언에서 보여주듯 with()는 확장 함수 형태가 아니고 단독으로 사용되는 함수이다.
+with() 함수는 세이프 콜(?.)을 지원하지 않기 때문에 다음의 let() 함수와 같이 사용되기도 한다.
+
+supportActionBar?.let {
+    with(it) {
+        ...
+    }
+}
+
+위 코드에서는 let() 함수로 null 검사를 하고 넘겨진 객체를 with() 함수에 의해
+it으로 받아 처리하고 있다. run() 함수에서 객체는 this를 받아서 생략할 수 있었듯이
+with() 함수의 본문에서 it으로 받았다.
+
+사실 let() 함수와 with() 함수의 표현을 병합하면 run() 함수로 다음과 같이 표현할 수 있다.
+
+supportActionBar?.run {
+    ...
+}
+
+물론 null이 아닌 경우가 확실하다면 with() 함수만 사용해도 된다.
