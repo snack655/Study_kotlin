@@ -16,4 +16,3 @@ T.run 또는 run           this                                block 결과
 with                    this                                Unit
 
 위의 모든 함수가 람다식을 이용하고 있으며 접근 방법과 반환 방법을 차이로 구분한다.
-
