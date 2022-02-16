@@ -1,0 +1,22 @@
+코루틴의 문맥
+
+코루틴이 실행될 때 여러 가지 문맥은 CoroutineContext에 의해 정의된다.
+launch { ... }와 같이 인자가 없는 경우에는
+CoroutineScope에서 상위의 문맥이 상속되어 결정되고
+launch(Dispatcher.Default) { ... }와 같이 사용되면
+GlobalScope에서 실행되는 문맥과 동일하게 사용된다.
+GlobalScope는 메인 스레드의 생명주기가 끝나면 같이 종료된다.
+
+내부적으로 보통 CommonPool이 지정되어 코루틴이 사용할 스레드의 공동 풀(pool)을 사용하게 된다.
+이것은 이미 초기화되어 있는 스레드 중 하나 혹은 그 이상이 선택되며 초기화하기 때문에
+스레드를 생성하는 오버헤드가 없는 빠른 기법이다.
+그리고 하나의 스레드에 다수의 코루틴이 동작할 수 있다.
+만일 특정 스레드 개수를 직접 지정하려면 다음과 같이 사용자 문맥을 만들어 지정할 수 있다.
+
+val threadPool = Executors.newFixedThreadPool(4)
+val MyContext = threadPool.asCoroutineDispatcher()
+...
+async(MyContext) { ... }
+...
+
+

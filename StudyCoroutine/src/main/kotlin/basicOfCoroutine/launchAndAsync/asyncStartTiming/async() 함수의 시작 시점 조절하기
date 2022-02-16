@@ -1,0 +1,13 @@
+async() 함수의 시작 시점 조절하기
+
+async에서 기본 인수는 문맥을 지정할 수 있는데 문맥 이외에도 몇 가지 매개변수를 더 지정할 수 있다.
+함수의 선언부를 살펴보자.
+
+public fun <T> async(context: ..., start: ...CoroutineStart, parent: ...Job?,
+onCompletion: ...CompletionHandler?, block: suspend ...CoroutineScope.() -> T):
+kotlinx.coroutines.experimental.Deferred<T> { }
+
+여기서 start 매개변수를 사용하면 async() 함수의 시작 시점을 조절할 수 있다.
+예를 들어 CoroutineStart.LAZY를 사용하면
+코루틴의 함수를 호출하거나 await() 함수를 호출하는 시점에서
+async() 함수가 실행되도록 코드를 작성할 수 있다.
