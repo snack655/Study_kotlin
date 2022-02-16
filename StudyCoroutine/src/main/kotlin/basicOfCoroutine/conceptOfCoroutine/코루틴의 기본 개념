@@ -1,0 +1,29 @@
+코루틴의 기본 개념
+
+프로세스나 스레드는 해당 작업을 중단(stopped)하고
+다른 루틴을 실행하기 위한 문맥 교환을 시도할 때 많은 비용이 든다.
+코루틴은 비용이 많이 드는 문맥 교환 없이 해당 루틴을 일시 중단(suspended)해서
+이러한 비용을 줄일 수 잇다.
+다르게 표현하면 운영체제가 스케줄링에 개입하는 과정이 필요하지 않다는 것이다.
+또한 일시 중단은 사용자가 제어할 수 있다.
+
+코루틴의 주요 패키지
+코틀린 1.2까지는 라이브러리를 사용하기 위해 kotlinx.coroutines.experimental.* 형태로
+코드에서 임포트할 수 있었다. 코틀린 1.3부터는 코루틴은 정식 버전이 되면서
+kotlinx.coroutines.*로 접근한다.
+먼저 common 패키지와 core 패키지에서 제공하는 주요 기능을 보자.
+
+common 패키지의 주요 기능
+                기능                  |              설명
+ launch / async                         코루틴 빌더
+ Job / Deferred                         cancellation 지원
+ Dispatchers                            Default는 백그라운드 코루틴을 위한 것이고 Main은 Android나 Swing, JavaFx를 위해 사용
+ delay / yield                          상위 레벨 지연(suspending) 함수
+ Channel / Mutex                        통신과 동기화를 위한 기능
+ coroutineScope / supervisorScope       범위 빌더
+ select                                 표현식 지원
+
+core 패키지의 주요 기능
+            기능             |                    설명
+ CommonPool                     코루틴 문맥
+ produce / actor                코루틴 빌더
